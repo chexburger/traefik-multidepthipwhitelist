@@ -2,13 +2,13 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"net"
 	"net/http"
 	"strings"
 
-	"github.com/traefik/traefik/v2/pkg/middlewares"
-	"github.com/traefik/traefik/v2/pkg/server/middleware"
+	"github.com/traefik/traefik/v3/pkg/config/dynamic"
+	"github.com/traefik/traefik/v3/pkg/middlewares"
+	"github.com/traefik/traefik/v3/pkg/server/middleware"
 )
 
 type Config struct {
@@ -91,8 +91,6 @@ func (m *MultiDepthIPWhitelist) isAllowed(ip string, allowedRanges []string) boo
 }
 
 func main() {
-	plugin.Serve(&plugin.ServeOpts{
-		CreateConfig: CreateConfig,
-		New:          New,
-	})
+	middleware.CreateConfig = CreateConfig
+	middleware.New = New
 }
